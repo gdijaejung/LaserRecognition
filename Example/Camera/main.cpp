@@ -11,9 +11,9 @@ using namespace cv;
 void main()
 {
 	IplImage* image = 0;
-	CvCapture* capture = cvCaptureFromCAM(1);
+	CvCapture* capture = cvCaptureFromCAM(0);
 	cvNamedWindow("T9-camera", 0);
-	cvResizeWindow("T9-camera", 320, 240);
+	cvResizeWindow("T9-camera", 640, 480);
 
 	while (1) {
 		cvGrabFrame(capture);

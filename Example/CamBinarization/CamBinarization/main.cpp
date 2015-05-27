@@ -1,4 +1,5 @@
 // 카메라 영상을 이진화해서 출력하는 예제.
+// http://t9t9.com/110 문서 참고.
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -6,6 +7,12 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 #include "cvaux.h"
+
+
+#pragma comment(lib, "opencv_core2411d.lib")
+#pragma comment(lib, "opencv_highgui2411d.lib")
+#pragma comment(lib, "opencv_imgproc2411.lib")
+
 
 using namespace cv;
 

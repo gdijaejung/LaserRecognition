@@ -1,6 +1,4 @@
-
-// HelloOpenCV.cpp : 콘솔 응용 프로그램에 대한 진입점을 정의합니다.
-//
+// 카메라 영상 출력 예제
 
 #include <stdio.h>
 #include <opencv2/core/core.hpp>
@@ -12,18 +10,18 @@ void main()
 {
 	IplImage* image = 0;
 	CvCapture* capture = cvCaptureFromCAM(0);
-	cvNamedWindow("T9-camera", 0);
-	cvResizeWindow("T9-camera", 640, 480);
+	cvNamedWindow("HUV05-camera", 0);
+	cvResizeWindow("HUV05-camera", 640, 480);
 
 	while (1) {
 		cvGrabFrame(capture);
 		image = cvRetrieveFrame(capture);
-		cvShowImage("T9-camera", image);
+		cvShowImage("HUV05-camera", image);
 
 		if (cvWaitKey(10) >= 0)
 			break;
 	}
 
 	cvReleaseCapture(&capture);
-	cvDestroyWindow("T9-camera");
+	cvDestroyWindow("HUV05-camera");
 }

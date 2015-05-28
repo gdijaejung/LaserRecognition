@@ -10,7 +10,7 @@ using namespace cv;
 int _tmain(int argc, _TCHAR* argv[])
 {
 	
-	Mat f = imread("C:/opencv/sources/samples/cpp/baboon.jpg");
+	Mat f = imread("D:/opencv/sources/samples/cpp/baboon.jpg");
 	if (f.empty())
 		return 0;
 

@@ -7,6 +7,14 @@
 
 using namespace cv;
 
+#pragma comment(lib, "opencv_core2411d.lib")
+#pragma comment(lib, "opencv_highgui2411d.lib")
+#pragma comment(lib, "opencv_imgproc2411d.lib")
+#pragma comment(lib, "opencv_features2d2411d.lib")
+#pragma comment(lib, "opencv_nonfree2411d.lib")
+#pragma comment(lib, "winmm.lib")
+
+
 int _tmain(int argc, _TCHAR* argv[])
 {
 	

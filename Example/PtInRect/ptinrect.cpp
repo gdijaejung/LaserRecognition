@@ -92,7 +92,7 @@ void main()
 	cvMoveWindow("HUV05-binarization", 660, 0);
 	cvMoveWindow("HUV05-rect", 0, 520);
 	cvMoveWindow("HUV05-screen", 660, 520);
-	cvMoveWindow("HUV05-screen-binarization", 660, 0);
+	cvMoveWindow("HUV05-screen-binarization", 1260, 0);
 
 	int fps = 0;
 	int frameCnt = 0;
@@ -254,7 +254,6 @@ void main()
 
 			//----------------------------------------------------------------------------------------------
 			// 스크린 이미지에서 포인터를 찾는다.
-
 			SimpleBlobDetector::Params params;
 
 			// Change thresholds
@@ -285,12 +284,34 @@ void main()
 			std::vector<KeyPoint> keypoints;
 			detector.detect(screen_output, keypoints);
 
+			strBuffer[0] = NULL;
+			int posX = 0, posY = 0;
+
+			if (!keypoints.empty())
+			{
+				const int screenW = approx[2].x - approx[0].x;
+				const int screenH = approx[1].y - approx[0].y;
+
+				int newPosX = ((int)keypoints[0].pt.x - approx[0].x);
+				int newPosY = ((int)keypoints[0].pt.y - approx[0].y);
+
+				newPosX = max(newPosX, 0);
+				newPosX = min(screenW, newPosX);
+				newPosY = max(newPosY, 0);
+				newPosY = min(screenH, newPosY);
+
+				posX = newPosX;
+				posY = newPosY;
+			}
+
+			sprintf_s(strBuffer, "pos = {%d, %d}", posX, posY);
+			cvPutText(screen_output, strBuffer, cvPoint(10, 20), &font, CV_RGB(255, 0, 255));
+
 			// Draw detected blobs as red circles.
 			// DrawMatchesFlags::DRAW_RICH_KEYPOINTS flag ensures the size of the circle corresponds to the size of blob
 			Mat im_with_keypoints;
 			drawKeypoints(screen_output, keypoints, im_with_keypoints, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 
-			//cvShowImage("HUV05-camera", image);
 			imshow("HUV05-screen-binarization", im_with_keypoints);
 		}
 

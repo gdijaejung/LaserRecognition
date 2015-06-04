@@ -11,7 +11,10 @@ using namespace cv;
 #pragma comment(lib, "opencv_nonfree2411d.lib")
 #pragma comment(lib, "winmm.lib")
 
+
+extern int g_screenThreshold = 128;
 Rect g_screenRect;
+vector<cv::Point> g_screenContour;
 
 
 
@@ -56,3 +59,38 @@ void setLabel(cv::Mat& im, const std::string label, std::vector<cv::Point>& cont
 	cv::putText(im, label, pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
 }
 
+
+void horizLines(Mat &image, const int w, const int h, const int div)
+{
+	const bool startBlank = true;
+	const int h2 = h / (div * 2);
+	int yOffset = 0;
+
+	for (int k = 0; k < div; ++k)
+	{
+		yOffset = k * h2 * 2;
+		if (startBlank)
+			yOffset += h2;
+
+		for (int i = 0; i < h2; ++i)
+			line(image, Point(0, i + yOffset), Point(w, i + yOffset), Scalar(0, 0, 0));
+	}
+}
+
+
+void verticalLines(Mat &image, const int w, const int h, const int div)
+{
+	const bool startBlank = true;
+	const int w2 = w / (div * 2);
+	int xOffset = 0;
+
+	for (int k = 0; k < div; ++k)
+	{
+		xOffset = k * w2 * 2;
+		if (startBlank)
+			xOffset += w2;
+
+		for (int i = 0; i < w2; ++i)
+			line(image, Point(i + xOffset, 0), Point(i + xOffset, h), Scalar(0, 0, 0));
+	}
+}

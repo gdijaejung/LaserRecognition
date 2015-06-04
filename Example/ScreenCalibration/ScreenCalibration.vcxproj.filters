@@ -4,9 +4,15 @@
     <ClCompile Include="screencalibration.cpp" />
     <ClCompile Include="screendetect.cpp" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="screencalib.cpp" />
+    <ClCompile Include="findrectcontour.cpp" />
+    <ClCompile Include="maincamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="screendetect.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="screencalib.h" />
+    <ClInclude Include="findrectcontour.h" />
+    <ClInclude Include="maincamera.h" />
   </ItemGroup>
 </Project>

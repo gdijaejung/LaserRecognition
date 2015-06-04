@@ -4,52 +4,36 @@
 
 #include "global.h"
 #include "screendetect.h"
+#include "screencalib.h"
+#include "maincamera.h"
 
 using namespace cv;
 
 
-void horizLines(Mat &image, const int w, const int h, const int div)
-{
-	const bool startBlank = true;
-	const int h2 = h / (div * 2);
-	int yOffset = 0;
-
-	for (int k = 0; k < div; ++k)
-	{
-		yOffset = k * h2 * 2;
-		if (startBlank)
-			yOffset += h2;
-
-		for (int i = 0; i < h2; ++i)
-			line(image, Point(0, i + yOffset), Point(w, i + yOffset), Scalar(0, 0, 0));
-	}
-}
-
-
-void verticalLines(Mat &image, const int w, const int h, const int div)
-{
-	const bool startBlank = true;
-	const int w2 = w / (div * 2);
-	int xOffset = 0;
-
-	for (int k = 0; k < div; ++k)
-	{
-		xOffset = k * w2 * 2;
-		if (startBlank)
-			xOffset += w2;
-
-		for (int i = 0; i < w2; ++i)
-			line(image, Point(i + xOffset, 0), Point(i + xOffset, h), Scalar(0, 0, 0));
-	}
-}
+cCapture g_camera;
 
 //void drawRectangle(Mat &image, const )
-
 int main(int argc, char* argv[])
 {
-	std::vector<cv::Point> screenLines(4);
-	Rect screenRect = ScreenDetect(screenLines);
+	g_camera.Init();
+	cvWaitKey(300);
 
+	vector<cv::Point> screenLines(4);
+	g_screenRect = ScreenDetectManual(screenLines, 50000, g_screenThreshold);
+
+	// 잡힌 스크린에서, 위아래로 크기를 늘린다.
+	const int increaseSize = 20;
+	screenLines[0].x -= increaseSize;
+	screenLines[0].y -= increaseSize;
+	screenLines[1].x += increaseSize;
+	screenLines[1].y -= increaseSize;
+	screenLines[2].x += increaseSize;
+	screenLines[2].y += increaseSize;
+	screenLines[3].x -= increaseSize;
+	screenLines[3].y += increaseSize;
+
+	g_screenContour = screenLines;
+	ScreenCalibration(screenLines);
 	
 	
 /*
@@ -206,4 +190,3 @@ int main(int argc, char* argv[])
 */
 	return 0;
 }
-

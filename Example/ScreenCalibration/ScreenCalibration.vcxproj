@@ -78,12 +78,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="findrectcontour.cpp" />
     <ClCompile Include="global.cpp" />
+    <ClCompile Include="maincamera.cpp" />
+    <ClCompile Include="screencalib.cpp" />
     <ClCompile Include="screencalibration.cpp" />
     <ClCompile Include="screendetect.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="findrectcontour.h" />
     <ClInclude Include="global.h" />
+    <ClInclude Include="maincamera.h" />
+    <ClInclude Include="screencalib.h" />
     <ClInclude Include="screendetect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

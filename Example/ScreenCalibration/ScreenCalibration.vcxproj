@@ -47,12 +47,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <PrecompiledHeaderFile>global.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -79,8 +79,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="findrectcontour.cpp" />
-    <ClCompile Include="global.cpp" />
+    <ClCompile Include="global.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="maincamera.cpp" />
+    <ClCompile Include="pointdetectcalibration.cpp" />
+    <ClCompile Include="screen.cpp" />
     <ClCompile Include="screencalib.cpp" />
     <ClCompile Include="screencalibration.cpp" />
     <ClCompile Include="screendetect.cpp" />
@@ -89,6 +93,8 @@
     <ClInclude Include="findrectcontour.h" />
     <ClInclude Include="global.h" />
     <ClInclude Include="maincamera.h" />
+    <ClInclude Include="pointdetectcalibration.h" />
+    <ClInclude Include="screen.h" />
     <ClInclude Include="screencalib.h" />
     <ClInclude Include="screendetect.h" />
   </ItemGroup>

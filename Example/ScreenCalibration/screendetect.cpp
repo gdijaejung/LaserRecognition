@@ -1,6 +1,6 @@
 
-#include "screendetect.h"
 #include "global.h"
+#include "screendetect.h"
 
 using namespace cv;
 
@@ -12,20 +12,20 @@ using namespace cv;
 //				  false 이면, 자동으로 설정된다.
 Rect ScreenDetectAuto(std::vector<cv::Point> &out, const int minScreenArea, OUT int &outThreshold)
 {
-	Mat screen(768, 1024, CV_8UC(3));
+	Mat screen(g_screen.GetHeight(), g_screen.GetWidth(), CV_8UC(3));
 	screen.setTo(Scalar(255, 255, 255));
 	namedWindow("Screen", CV_WINDOW_NORMAL);
 	cvSetWindowProperty("Screen", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
 	const bool startBlank = true;
-	const int w = 1024;
-	const int h = 768;
+	const int w = g_screen.GetWidth();
+	const int h = g_screen.GetHeight();
 	const int div = 32;
 	imshow("Screen", screen);
 
 	//-----------------------------------------------------------------------------------------
 	// 카메라 영상 정보 출력.
-	int threshold = 128; // 임계값(Threshold) 설정
+	int threshold = 33; // 임계값(Threshold) 설정
 	bool upThreashold = false;
 	bool detectScreen = false;
 	int detectScreenCount = 0;
@@ -36,7 +36,6 @@ Rect ScreenDetectAuto(std::vector<cv::Point> &out, const int minScreenArea, OUT 
 	IplImage *camera = 0;
 	IplImage *binImage = 0;
 	IplImage *binOutput = 0;
-	//CvCapture* capture = cvCaptureFromCAM(0);
 	cvNamedWindow("HUV05-camera", 0);
 	cvNamedWindow("HUV05-binarization", 0);
 	cvNamedWindow("HUV05-screen", 0);
@@ -164,7 +163,6 @@ Rect ScreenDetectAuto(std::vector<cv::Point> &out, const int minScreenArea, OUT 
 						bigScreen = rect;
 
 						// bigScreen 크기가 어느정도 커야 한다. 작다면 찾지 못한걸로 간주한다.
-						// 최소 200 X 200 으로 간주한다.
 						if (rect.width * rect.height > minScreenArea)
 							rectIndex = i;
 					}
@@ -241,20 +239,20 @@ Rect ScreenDetectAuto(std::vector<cv::Point> &out, const int minScreenArea, OUT 
 cv::Rect ScreenDetectManual(std::vector<cv::Point> &out,
 	const int minScreenArea, OUT int &outThreshold)
 {
-	Mat screen(768, 1024, CV_8UC(3));
+	Mat screen(g_screen.GetHeight(), g_screen.GetWidth(), CV_8UC(3));
 	screen.setTo(Scalar(255, 255, 255));
 	namedWindow("Screen", CV_WINDOW_NORMAL);
 	cvSetWindowProperty("Screen", CV_WND_PROP_FULLSCREEN, CV_WINDOW_FULLSCREEN);
 
 	const bool startBlank = true;
-	const int w = 1024;
-	const int h = 768;
+	const int w = g_screen.GetWidth();
+	const int h = g_screen.GetHeight();
 	const int div = 32;
 	imshow("Screen", screen);
 
 	//-----------------------------------------------------------------------------------------
 	// 카메라 영상 정보 출력.
-	int threshold = 128; // 임계값(Threshold) 설정
+	int threshold = 33; // 임계값(Threshold) 설정
 	bool detectScreen = false;
 	int detectScreenCount = 0;
 	std::vector<cv::Point> screenLines(4);
@@ -263,7 +261,6 @@ cv::Rect ScreenDetectManual(std::vector<cv::Point> &out,
 	IplImage *camera = 0;
 	IplImage *binImage = 0;
 	IplImage *binOutput = 0;
-	//CvCapture* capture = cvCaptureFromCAM(0);
 	cvNamedWindow("HUV05-camera", 0);
 	cvNamedWindow("HUV05-binarization", 0);
 	cvNamedWindow("HUV05-screen", 0);
@@ -431,6 +428,8 @@ cv::Rect ScreenDetectManual(std::vector<cv::Point> &out,
 
 		imshow("HUV05-screen", dst);
 	}
+
+	cvWaitKey(1000);
 
 
 	cvDestroyWindow("HUV05-camera");

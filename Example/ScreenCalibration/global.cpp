@@ -13,8 +13,8 @@ using namespace cv;
 
 
 extern int g_screenThreshold = 128;
-Rect g_screenRect;
-vector<cv::Point> g_screenContour;
+//Rect g_screenRect;
+//vector<cv::Point> g_screenContour;
 
 
 
@@ -32,7 +32,7 @@ vector<cv::Point> g_screenContour;
 * Helper function to find a cosine of angle between vectors
 * from pt0->pt1 and pt0->pt2
 */
-double angle(cv::Point pt1, cv::Point pt2, cv::Point pt0)
+double angle(cv::Point pt1, const cv::Point &pt2, const cv::Point &pt0)
 {
 	double dx1 = pt1.x - pt0.x;
 	double dy1 = pt1.y - pt0.y;
@@ -44,7 +44,7 @@ double angle(cv::Point pt1, cv::Point pt2, cv::Point pt0)
 /**
 * Helper function to display text in the center of a contour
 */
-void setLabel(cv::Mat& im, const std::string label, std::vector<cv::Point>& contour)
+void setLabel(cv::Mat& im, const std::string &label, const std::vector<cv::Point>& contour)
 {
 	int fontface = cv::FONT_HERSHEY_SIMPLEX;
 	double scale = 0.4;

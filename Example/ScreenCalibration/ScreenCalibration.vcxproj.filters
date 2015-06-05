@@ -7,6 +7,8 @@
     <ClCompile Include="screencalib.cpp" />
     <ClCompile Include="findrectcontour.cpp" />
     <ClCompile Include="maincamera.cpp" />
+    <ClCompile Include="screen.cpp" />
+    <ClCompile Include="pointdetectcalibration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="screendetect.h" />
@@ -14,5 +16,7 @@
     <ClInclude Include="screencalib.h" />
     <ClInclude Include="findrectcontour.h" />
     <ClInclude Include="maincamera.h" />
+    <ClInclude Include="screen.h" />
+    <ClInclude Include="pointdetectcalibration.h" />
   </ItemGroup>
 </Project>

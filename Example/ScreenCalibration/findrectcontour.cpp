@@ -59,7 +59,7 @@ bool FindRectContour(IplImage *image, IplImage *binImage,
 			// Use the degrees obtained above and the number of vertices
 			// to determine the shape of the contour
 			//if (vtc >= 4 && mincos >= -0.1 && maxcos <= 0.3)
-			if (vtc >= 4 && mincos >= -0.2f && maxcos <= 0.8f)
+			if (vtc >= 4 && mincos >= -0.25f && maxcos <= 0.8f)
 			{
 				// 가장 큰 박스를 찾는다.
 				Point center = approx[0];
@@ -87,16 +87,6 @@ bool FindRectContour(IplImage *image, IplImage *binImage,
 				Rect rect((int)rectLines[0].x, (int)rectLines[0].y,
 					(int)(rectLines[1].x - rectLines[0].x),
 					(int)(rectLines[2].y - rectLines[0].y));
-
-// 				if ((rect.width * rect.height) > (bigRect.width * bigRect.height))
-// 				{
-// 					bigRect = rect;
-// 
-// 					// bigScreen 크기가 어느정도 커야 한다. 작다면 찾지 못한걸로 간주한다.
-// 					// 최소 minArea 크기보다 큰 것으로 간주한다.
-// 					if (rect.width * rect.height > minArea)
-// 						rectIndex = i;
-// 				}
 
 				// 사각형의 넓이 범위 안에 들었을 때..
 				if (((rect.width * rect.height) > minArea) &&

@@ -236,7 +236,7 @@ Rect ScreenDetectAuto(std::vector<cv::Point> &out, const int minScreenArea, OUT 
 
 
 // 수동을 스크린을 찾는다.
-cv::Rect ScreenDetectManual(std::vector<cv::Point> &out,
+cv::Rect ScreenDetectManual(std::vector<Point> &out,
 	const int minScreenArea, OUT int &outThreshold)
 {
 	Mat screen(g_screen.GetHeight(), g_screen.GetWidth(), CV_8UC(3));

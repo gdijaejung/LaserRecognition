@@ -39,16 +39,45 @@ void DetectPointCalibration()
 	cvCreateTrackbar("Threshold", "HUV05-camera", &threshold, 255, NULL); // "HUV05-camera" 윈도우에 bar 를 붙인다. 
 	cvCreateTrackbar("Threshold", "HUV05-screen", &threshold, 255, NULL); // "HUV05-camera" 윈도우에 bar 를 붙인다. 
 
-	std::vector<std::vector<cv::Point> > contours(1);
+	std::vector<vector<Point> > contours(1);
 	contours[0] = g_screen.GetScreenContour();
 
-	const float circleW = 10;
-	const float circleH = 10;
+	
+	
+	Point2f pointPos(100,100);
+	Point2f pointV(30, 30);
+	Point recogPointPos(500, 300);
+	const float circleW = 30;
+	const float circleH = 30;
+	
+	int curT = timeGetTime();
+	int oldT = curT;
 
 	while (1)
 	{
+		// 포인터 움직임.
+		curT = timeGetTime();
+		float incT = (float)(curT - oldT) / 1000.f;
+		if (incT > 0.1f)
+			incT = 0.1f;
+
+		oldT = curT;
+		
+		Point2f pointCurPos = pointPos + pointV * incT;
+		if (pointCurPos.x < 0)
+			pointV.x = -pointV.x;
+		if (pointCurPos.x > contours[0][1].x)
+			pointV.x = -pointV.x;
+		if (pointCurPos.y < 0)
+			pointV.y = -pointV.y;
+		if (pointCurPos.y > contours[0][3].y)
+			pointV.y = -pointV.y;
+		pointPos = pointCurPos;
+
+
 		screen.setTo(Scalar(255, 255, 255));
-		ellipse(screen, RotatedRect(Point2f(100, 100), Size2f(circleW, circleH), 0), Scalar(0, 0, 0), CV_FILLED);
+		ellipse(screen, RotatedRect(recogPointPos, Size2f(circleW+5, circleH+5), 0), Scalar(200, 200, 255), CV_FILLED);
+		ellipse(screen, RotatedRect(pointCurPos, Size2f(circleW, circleH), 0), Scalar(0, 0, 0), CV_FILLED);
 		imshow("Screen", screen);
 
 		camera = g_camera.GetCapture();
@@ -102,7 +131,7 @@ void DetectPointCalibration()
 		params.filterByArea = true;
 		//params.minArea = 1500;
 		params.minArea = 10;
-		params.maxArea = 100;
+		params.maxArea = 200;
 
 		// Filter by Circularity
 		params.filterByCircularity = true;
@@ -138,6 +167,8 @@ void DetectPointCalibration()
 // 
 // 			posX = newPosX;
 // 			posY = newPosY;
+
+			recogPointPos = g_screen.GetPointPos(keypoints[0]);
 		}
 
 		// Draw detected blobs as red circles.
@@ -145,6 +176,7 @@ void DetectPointCalibration()
 		Mat im_with_keypoints;
 		drawKeypoints(dst, keypoints, im_with_keypoints, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 		imshow("HUV05-screen", im_with_keypoints);
+
 
 		if (cvWaitKey(10) >= 0)
 			break;

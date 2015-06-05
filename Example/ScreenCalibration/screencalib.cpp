@@ -41,7 +41,7 @@ void ScreenCalibration( const vector<Point> &screenContour )
 	cvCreateTrackbar("Threshold", "HUV05-camera", &threshold, 255, NULL); // "HUV05-camera" 윈도우에 bar 를 붙인다. 
 	cvCreateTrackbar("Threshold", "HUV05-screen", &threshold, 255, NULL); // "HUV05-camera" 윈도우에 bar 를 붙인다. 
 
-	std::vector<std::vector<cv::Point> > contours(1);
+	std::vector<vector<Point> > contours(1);
 	contours[0] = screenContour;
 
 	cvWaitKey(300);
@@ -141,6 +141,8 @@ void ScreenCalibration( const vector<Point> &screenContour )
 	}
 	imshow("HUV05-screen", dst);
 	//-------------------------------------------------------------------------------
+
+	g_screen.CalculateCellMapping(); // 매핑 테이블을 완성한다.
 
 
 	cvWaitKey(3000);

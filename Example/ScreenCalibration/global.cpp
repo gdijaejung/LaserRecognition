@@ -8,25 +8,13 @@ using namespace cv;
 #pragma comment(lib, "opencv_highgui2411d.lib")
 #pragma comment(lib, "opencv_imgproc2411d.lib")
 #pragma comment(lib, "opencv_features2d2411d.lib")
-#pragma comment(lib, "opencv_nonfree2411d.lib")
+//#pragma comment(lib, "opencv_nonfree2411d.lib")
 #pragma comment(lib, "winmm.lib")
 
 
 extern int g_screenThreshold = 128;
-//Rect g_screenRect;
-//vector<cv::Point> g_screenContour;
 
 
-
-/**
-* Simple shape detector program.
-* It loads an image and tries to find simple shapes(rectangle, triangle, circle, etc) in it.
-* This program is a modified version of `squares.cpp` found in the OpenCV sample dir.
-* /
-#include <opencv2/highgui/highgui.hpp>
-#include <opencv2/imgproc/imgproc.hpp>
-#include <cmath>
-#include <iostream>
 
 /**
 * Helper function to find a cosine of angle between vectors

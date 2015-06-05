@@ -10,6 +10,7 @@ struct sCellMapping
 {
 	cv::Rect screenCell; // 화면에서 출력하는 cell 위치
 	vector<cv::Point> cameraCell; // 카메라에서 인식한 cell 위치
+	cv::Mat tm;
 };
 
 
@@ -37,6 +38,8 @@ public:
 	void SetCellMappingTable(const int index, const cv::Rect &screenCell,
 		const vector<cv::Point> &cameraCell);
 	const vector<sCellMapping>& GetCellMappingTable() const;
+	void CalculateCellMapping();
+	cv::Point GetPointPos(const cv::KeyPoint &point);
 
 
 protected:

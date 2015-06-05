@@ -27,8 +27,8 @@ int main(int argc, char* argv[])
 	vector<cv::Point> screenLines(4);
 	const Rect screenRect = ScreenDetectManual(screenLines, 50000, g_screenThreshold);
 	g_screen.Init(Rect(0, 0, 1024, 768), screenLines);
-// 
-// 	ScreenCalibration(g_screen.GetScreenContour());
+
+ 	ScreenCalibration(g_screen.GetScreenContour());
 
 	DetectPointCalibration();
 

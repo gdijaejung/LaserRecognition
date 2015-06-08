@@ -18,7 +18,7 @@ cCapture::~cCapture()
 
 bool cCapture::Init()
 {
-	m_capture = cvCaptureFromCAM(0);
+	m_capture = cvCaptureFromCAM(1);
 
 	return true;
 }

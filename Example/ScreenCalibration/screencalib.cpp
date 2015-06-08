@@ -18,7 +18,8 @@ void ScreenCalibration( const vector<Point> &screenContour )
 	const int cellH = h / rows;
 	g_screen.CreateCellMappingTable(cols, rows);
 
-	int threshold = 240;
+//	int threshold = 240;
+	int threshold = 200;
 	IplImage *camera = 0;
 	IplImage *binImage = 0;
 	IplImage *binOutput = 0;
@@ -100,8 +101,8 @@ void ScreenCalibration( const vector<Point> &screenContour )
 		Mat dst(&dummyScreen);
 		vector<Point> rectLines;
 		const pair<float,float> rate = g_screen.GetResolutionRecognitionRate();
-		const float minArea = cellH*cellW * rate.first * rate.second * 0.7f;
-		const float maxArea = cellH*cellW * rate.first * rate.second * 2.f;
+		const float minArea = cellH*cellW * rate.first  * 0.7f;
+		const float maxArea = cellH*cellW * rate.first * 2.f;
 		if (FindRectContour(binOutput, binOutput, (int)minArea, (int)maxArea, rectLines))
 		{
 			setLabel(dst, "RECT", rectLines);

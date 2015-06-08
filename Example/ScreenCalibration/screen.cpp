@@ -75,9 +75,11 @@ int cScreen::GetRecogHeight()
 // width, height 순서대로 리턴한다.
 pair<float, float> cScreen::GetResolutionRecognitionRate()
 {
-	return pair<float, float>(
-		(float)GetRecogWidth() / (float)GetWidth(),
-		(float)GetRecogHeight() / (float)GetHeight());
+	const float rate = (float)(GetRecogWidth() * GetRecogHeight()) / (float)(GetWidth() * GetHeight());
+	//return pair<float, float>(
+	//	(float)GetRecogWidth() / (float)GetWidth(),
+	//	(float)GetRecogHeight() / (float)GetHeight());
+	return pair<float, float>(rate, rate);
 }
 
 
@@ -130,11 +132,15 @@ void cScreen::CalculateCellMapping()
 // 영상에서 얻은 포인터의 위치를 실제 스크린에서의 위치로 변환해서 리턴한다.
 cv::Point cScreen::GetPointPos(const cv::KeyPoint &point)
 {
-	const int cameraW = m_screenContour[1].x - m_screenContour[0].x;
-	const int cameraH = m_screenContour[3].y - m_screenContour[0].y;
+	const int cameraW = m_screenContour[1].x - m_screenContour[0].x - (m_increaseScreenLength * 2);
+	const int cameraH = m_screenContour[3].y - m_screenContour[0].y - (m_increaseScreenLength * 2);
+	const int cellW = cameraW / m_cellCols;
+	const int cellH = cameraH / m_cellRows;
+	const float x = point.pt.x - m_increaseScreenLength;
+	const float y = point.pt.y - m_increaseScreenLength;
 
-	const int cellX = (int)(point.pt.x / (float)cameraW);
-	const int cellY = (int)(point.pt.y / (float)cameraH);
+	const int cellX = (int)(x / (float)cellW);
+	const int cellY = (int)(y / (float)cellH);
 
 	const int index = (cellY * m_cellCols) + cellX;
 	if ((int)m_cellMapping.size() <= index)

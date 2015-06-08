@@ -66,11 +66,11 @@ void DetectPointCalibration()
 		Point2f pointCurPos = pointPos + pointV * incT;
 		if (pointCurPos.x < 0)
 			pointV.x = -pointV.x;
-		if (pointCurPos.x > contours[0][1].x)
+		if (pointCurPos.x > w)
 			pointV.x = -pointV.x;
 		if (pointCurPos.y < 0)
 			pointV.y = -pointV.y;
-		if (pointCurPos.y > contours[0][3].y)
+		if (pointCurPos.y > h)
 			pointV.y = -pointV.y;
 		pointPos = pointCurPos;
 

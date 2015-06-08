@@ -8,7 +8,7 @@
 #include <mmsystem.h>
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
-#include "cvaux.h"
+#include <opencv/cvaux.h>
 #include "opencv2/nonfree/nonfree.hpp"
 
 

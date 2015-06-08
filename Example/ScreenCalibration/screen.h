@@ -9,11 +9,13 @@
 struct sCellMapping
 {
 	cv::Rect screenCell; // 화면에서 출력하는 cell 위치
+	vector<cv::Point> screenCell2; // 화면에서 출력하는 cell 위치
 	vector<cv::Point> cameraCell; // 카메라에서 인식한 cell 위치
 	cv::Mat tm;
 };
 
 
+class cCapture;
 class cScreen
 {
 public:
@@ -21,9 +23,11 @@ public:
 	virtual ~cScreen();
 
 	void Init(const cv::Rect &screenResolution, const vector<cv::Point> &screenContour, 
-		const int increaseScreenSize = 20);
+		const int increaseScreenSize = 25);
 
 	void InitResolution(const cv::Rect &screenResolution);
+
+	cv::Mat& GetWarpScreen(cCapture &capture);
 
 	int GetWidth();
 	int GetHeight();
@@ -40,6 +44,7 @@ public:
 	const vector<sCellMapping>& GetCellMappingTable() const;
 	void CalculateCellMapping();
 	cv::Point GetPointPos(const cv::KeyPoint &point);
+	bool IsInContour(const vector<cv::Point> &contour, const cv::Point2f &pos, OUT float &out);
 
 
 protected:
@@ -58,6 +63,8 @@ protected:
 	int m_cellCols;
 	int m_cellRows;
 	vector<sCellMapping> m_cellMapping; // 스크린에 출력하는 셀정보와 카메라에서 인식하는 셀정보를 저장하고 매핑한다.
+	cv::Mat m_warpScreen;
+
 };
 
 

@@ -4,10 +4,10 @@
 
 using namespace cv;
 
-#pragma comment(lib, "opencv_core2410d.lib")
-#pragma comment(lib, "opencv_highgui2410d.lib")
-#pragma comment(lib, "opencv_imgproc2410d.lib")
-#pragma comment(lib, "opencv_features2d2410d.lib")
+#pragma comment(lib, "opencv_core2411d.lib")
+#pragma comment(lib, "opencv_highgui2411d.lib")
+#pragma comment(lib, "opencv_imgproc2411d.lib")
+#pragma comment(lib, "opencv_features2d2411d.lib")
 //#pragma comment(lib, "opencv_nonfree2411d.lib")
 #pragma comment(lib, "winmm.lib")
 
@@ -32,7 +32,7 @@ double angle(cv::Point pt1, const cv::Point &pt2, const cv::Point &pt0)
 /**
 * Helper function to display text in the center of a contour
 */
-void setLabel(cv::Mat& im, const std::string &label, const std::vector<cv::Point>& contour)
+void setLabel(cv::Mat& im, const std::string &label, const std::vector<cv::Point>& contour, const cv::Scalar &color)
 {
 	int fontface = cv::FONT_HERSHEY_SIMPLEX;
 	double scale = 0.4;
@@ -44,7 +44,7 @@ void setLabel(cv::Mat& im, const std::string &label, const std::vector<cv::Point
 
 	cv::Point pt(r.x + ((r.width - text.width) / 2), r.y + ((r.height + text.height) / 2));
 	cv::rectangle(im, pt + cv::Point(0, baseline), pt + cv::Point(text.width, -text.height), CV_RGB(255, 255, 255), CV_FILLED);
-	cv::putText(im, label, pt, fontface, scale, CV_RGB(0, 0, 0), thickness, 8);
+	cv::putText(im, label, pt, fontface, scale, color, thickness, 8);
 }
 
 

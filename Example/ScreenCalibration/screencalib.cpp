@@ -2,7 +2,7 @@
 #include "global.h"
 #include "screencalib.h"
 #include "findrectcontour.h"
-
+#include <sstream>
 
 using namespace cv;
 
@@ -18,8 +18,8 @@ void ScreenCalibration( const vector<Point> &screenContour )
 	const int cellH = h / rows;
 	g_screen.CreateCellMappingTable(cols, rows);
 
-//	int threshold = 240;
-	int threshold = 200;
+	int threshold = 254;
+//	int threshold = 200;
 	IplImage *camera = 0;
 	IplImage *binImage = 0;
 	IplImage *binOutput = 0;
@@ -119,34 +119,66 @@ void ScreenCalibration( const vector<Point> &screenContour )
 			++count;
 		}
 
-
 		imshow("HUV05-screen", dst);
 	}
 
 
 	//-------------------------------------------------------------------------------
 	// 결과 매핑화면 출력
+	g_screen.CalculateCellMapping(); // 매핑 테이블을 완성한다.
+
 	screen.setTo(Scalar(0, 0, 0));
 	imshow("Screen", screen);
 	cvWaitKey(30);
 
 	camera = g_camera.GetCapture();
+	int num = 0;
 	Mat dst(camera);	
 	for each(auto &table in g_screen.GetCellMappingTable())
 	{
-		setLabel(dst, "RECT", table.cameraCell);
+		std::stringstream ss;
+		ss << "RECT " << num++;
+		setLabel(dst, ss.str(), table.cameraCell);
 		line(dst, table.cameraCell[0], table.cameraCell[1], Scalar(255, 0, 0), 1);
 		line(dst, table.cameraCell[1], table.cameraCell[2], Scalar(255, 0, 0), 1);
 		line(dst, table.cameraCell[2], table.cameraCell[3], Scalar(255, 0, 0), 1);
 		line(dst, table.cameraCell[3], table.cameraCell[0], Scalar(255, 0, 0), 1);
 	}
 	imshow("HUV05-screen", dst);
+
+	num = 0;
+	for each(auto &table in g_screen.GetCellMappingTable())
+	{
+		std::stringstream ss;
+		ss << "RECT " << num++;
+
+		// 화면에 셀츨 출력한다.
+		setLabel(screen, ss.str(), table.screenCell2, Scalar(0,0,255));
+		line(screen, table.screenCell2[0], table.screenCell2[1], Scalar(0, 0, 255), 2);
+		line(screen, table.screenCell2[1], table.screenCell2[2], Scalar(0, 0, 255), 2);
+		line(screen, table.screenCell2[2], table.screenCell2[3], Scalar(0, 0, 255), 2);
+		line(screen, table.screenCell2[3], table.screenCell2[0], Scalar(0, 0, 255), 2);
+
+		
+		vector<Point> rect(4);
+		for (int i = 0; i < 4; ++i)
+		{
+			KeyPoint kpos;
+			kpos.pt = Point(table.cameraCell[i].x, table.cameraCell[i].y);
+			rect[i] = g_screen.GetPointPos(kpos);
+		}
+
+		setLabel(screen, ss.str(), rect);
+		line(screen, rect[0], rect[1], Scalar(0, 255, 255), 1);
+		line(screen, rect[1], rect[2], Scalar(0, 255, 255), 1);
+		line(screen, rect[2], rect[3], Scalar(0, 255, 255), 1);
+		line(screen, rect[3], rect[0], Scalar(0, 255, 255), 1);
+	}
+	imshow("Screen", screen);
 	//-------------------------------------------------------------------------------
+	
 
-	g_screen.CalculateCellMapping(); // 매핑 테이블을 완성한다.
-
-
-	cvWaitKey(3000);
+	cvWaitKey();
 
 	cvDestroyWindow("HUV05-camera");
 	cvDestroyWindow("HUV05-binarization");

@@ -45,7 +45,7 @@ void DetectPointCalibration()
 	
 	
 	Point2f pointPos(100,100);
-	Point2f pointV(30, 30);
+	Point2f pointV(100, 100);
 	Point recogPointPos(500, 300);
 	const float circleW = 30;
 	const float circleH = 30;
@@ -64,13 +64,13 @@ void DetectPointCalibration()
 		oldT = curT;
 		
 		Point2f pointCurPos = pointPos + pointV * incT;
-		if (pointCurPos.x < 0)
+		if (pointCurPos.x < 0 && (pointV.x < 0))
 			pointV.x = -pointV.x;
-		if (pointCurPos.x > w)
+		else if (pointCurPos.x > w && (pointV.x > 0))
 			pointV.x = -pointV.x;
-		if (pointCurPos.y < 0)
+		if (pointCurPos.y < 0 && (pointV.y < 0))
 			pointV.y = -pointV.y;
-		if (pointCurPos.y > h)
+		else if (pointCurPos.y > h && (pointV.y > 0))
 			pointV.y = -pointV.y;
 		pointPos = pointCurPos;
 
@@ -80,6 +80,8 @@ void DetectPointCalibration()
 		ellipse(screen, RotatedRect(pointCurPos, Size2f(circleW, circleH), 0), Scalar(0, 0, 0), CV_FILLED);
 		imshow("Screen", screen);
 
+		//cvWaitKey(10);
+
 		camera = g_camera.GetCapture();
 
 
@@ -88,7 +90,7 @@ void DetectPointCalibration()
 		Mat mask = Mat::zeros(src.rows, src.cols, CV_8UC1);
 		drawContours(mask, contours, 0, Scalar(255), CV_FILLED);
 		Mat maskingScreen(src.rows, src.cols, CV_8UC3);
-		maskingScreen.setTo(Scalar(0, 0, 0));
+		maskingScreen.setTo(Scalar(255, 255, 255));
 		src.copyTo(maskingScreen, mask);
 
 		IplImage dummyScreen(maskingScreen); // 이진화 처리를 위한 더미 스크린 영상
@@ -176,7 +178,6 @@ void DetectPointCalibration()
 		Mat im_with_keypoints;
 		drawKeypoints(dst, keypoints, im_with_keypoints, Scalar::all(-1), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 		imshow("HUV05-screen", im_with_keypoints);
-
 
 		if (cvWaitKey(10) >= 0)
 			break;
